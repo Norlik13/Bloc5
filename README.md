@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Vide Grenier en Ligne
 
 Ce Readme.md est à destination des futurs repreneurs du site-web Vide Grenier en Ligne.
@@ -46,3 +47,6 @@ Les modèles sont utilisés pour récupérer ou stocker des données dans l'appl
 ```php
 $db = static::getDB();
 ```
+=======
+# Bloc5
+>>>>>>> 857df8ec4acab0c34dc4b5686a230d0d353df307
