@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    image: vg-php-prod
+    container_name: vg-web-prod
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: vg-db-prod
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - prod-db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  prod-db-data:
