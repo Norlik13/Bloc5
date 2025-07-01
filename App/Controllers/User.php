@@ -128,6 +128,10 @@ class User extends \Core\Controller
                 'username' => $user['username'],
             );
 
+            if (isset($data['remember'])) {
+                setcookie('remember_me', $user['id'], time() + (86400 * 30), "/"); // 30 jours
+            }
+
             return true;
 
         } catch (Exception $ex) {
