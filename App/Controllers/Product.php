@@ -75,4 +75,20 @@ class Product extends \Core\Controller
             'suggestions' => $suggestions
         ]);
     }
+
+    public function contact()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $message = $_POST['message'] ?? '';
+            $articleId = $this->route_params['id'] ?? null;
+
+            header('Location: /product/' . $articleId);
+            exit;
+        } else {
+            header('Location: /');
+            exit;
+        }
+    }
 }
