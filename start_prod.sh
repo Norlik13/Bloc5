@@ -2,6 +2,10 @@
 
 echo "Démarrage de l'environnement de production..."
 
+git checkout main
+
+git pull origin main
+
 cd ./Docker/prod
 
 docker-compose up -d --build
