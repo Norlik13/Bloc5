@@ -5,24 +5,34 @@ services:
     build:
       context: ../..
       dockerfile: Dockerfile
-    container_name: vg-web-dev
+    container_name: bloc5-dev-web
     ports:
-      - "8080:80"
+      - "9000:80"
     working_dir: /var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ../..:/var/www/html
+      - /var/www/html/vendor # Prevent vendor from being overwritten
     depends_on:
       - db
 
   db:
     image: mysql:5.7
-    container_name: vg-db-dev
+    container_name: bloc5-dev-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - dev-db-data:/var/lib/mysql
+      - ../../sql/import.sql:/docker-entrypoint-initdb.d/import.sql
     ports:
       - "3307:3306"
 
