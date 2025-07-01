@@ -36,7 +36,7 @@ $router->add('account', ['controller' => 'User', 'action' => 'account', 'private
 $router->add('product', ['controller' => 'Product', 'action' => 'index', 'private' => true]);
 $router->add('product/{id:\d+}', ['controller' => 'Product', 'action' => 'show']);
 $router->add('{controller}/{action}');
-
+$router->add('product/contact/{id:\d+}', ['controller' => 'product', 'action' => 'contact']);
 /*
  * Gestion des erreurs dans le routing
  */
