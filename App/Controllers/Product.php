@@ -20,26 +20,38 @@ class Product extends \Core\Controller
     {
 
         if(isset($_POST['submit'])) {
+            $errors = [];
 
-            try {
-                $f = $_POST;
-
-                // TODO: Validation
-
-                $f['user_id'] = $_SESSION['user']['id'];
-                $id = Articles::save($f);
-
-                $pictureName = Upload::uploadFile($_FILES['picture'], $id);
-
-                Articles::attachPicture($id, $pictureName);
-
-                header('Location: /product/' . $id);
-            } catch (\Exception $e){
-                    var_dump($e);
+            // Vérifier si l'utilisateur a téléchargé une image
+            if ($_FILES['picture']['error'] === UPLOAD_ERR_NO_FILE || !isset($_FILES['picture'])) {
+                $errors[] = "Veuillez uploader un photo pour publier une annonce.";
             }
-        }
 
-        View::renderTemplate('Product/Add.html');
+            if (empty($errors)) {
+                try {
+                    $f = $_POST;
+
+                    $f['user_id'] = $_SESSION['user']['id'];
+                    $id = Articles::save($f);
+
+                    $pictureName = Upload::uploadFile($_FILES['picture'], $id);
+
+                    Articles::attachPicture($id, $pictureName);
+
+                    header('Location: /product/' . $id);
+                    exit;
+
+                } catch (\Exception $e) {
+                    $errors[] = "Une erreur s'est produite : " . $e->getMessage();
+                }
+            }
+            View::renderTemplate('Product/Add.html', [
+                'errors' => $errors
+            ]);
+        }
+        else {
+            View::renderTemplate('Product/Add.html');
+        }
     }
 
     /**
