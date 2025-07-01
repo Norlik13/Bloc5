@@ -7,6 +7,7 @@ use Core\Model;
 use App\Core;
 use Exception;
 use App\Utility;
+use \PDO;
 
 /**
  * User Model:
@@ -60,6 +61,15 @@ class User extends Model {
         $stmt->execute([$id]);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public static function getById($id) {
+        // Exemple avec PDO
+        $db = static::getDB();
+        $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 

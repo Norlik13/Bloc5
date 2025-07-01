@@ -51,8 +51,20 @@ class User extends \Core\Controller
 
             // validation
 
-            $this->register($f);
+            $userID = $this->register($f);
             // TODO: Rappeler la fonction de login pour connecter l'utilisateur
+
+            if ($userID) {
+                $user = \App\Models\User::getById($userID);
+                if ($user) {
+                    $_SESSION['user'] = array(
+                        'id' => $user['id'],
+                        'username' => $user['username'],
+                    );
+                    header('Location: /account');
+                    exit;
+                }
+            }
         }
 
         View::renderTemplate('User/register.html');
