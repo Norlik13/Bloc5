@@ -26,4 +26,4 @@ COPY . /var/www/html
 
 # Installe les dépendances PHP avec Composer
 WORKDIR /var/www/html
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
